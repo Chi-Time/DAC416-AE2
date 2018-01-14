@@ -15,16 +15,22 @@
 
 class SimulationController
 {
+// Methods
 public:
 	SimulationController ();
+	bool MazeCreated ();
+	void DisplayIntroMenu ();
+	void LogCreationError ();
 	void LoopSimulation ();
+	void DisplaySimulationResults ();
 	~SimulationController ();
 
+// Members
 private:
 	cMaze m_Maze;
-	Mouse* m_Mouse{ nullptr };
 	cTimer m_Timer;
 	Console m_Console;
+	Mouse* m_Mouse{ nullptr };
 
 };
 
