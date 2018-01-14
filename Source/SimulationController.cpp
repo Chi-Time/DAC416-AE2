@@ -1,5 +1,4 @@
 #include "SimulationController.h"
-#include "Vector2.h"
 
 
 
@@ -14,10 +13,12 @@ SimulationController::SimulationController ()
 	if (!MazeCreated ())
 		// If it was not, then log this to the console and exit safely.
 		LogCreationError ();
+}
 
+void SimulationController::StartSimulation ()
+{
 	DisplayIntroMenu ();
 	LoopSimulation ();
-	DisplaySimulationResults ();
 }
 
 bool SimulationController::MazeCreated ()
@@ -60,34 +61,55 @@ void SimulationController::LoopSimulation ()
 {
 	do
 	{
-		// start keeping time
-		m_Timer.start ();
-
-		m_Mouse->CalculateMovement ();
-		m_Mouse->Draw (m_Console);
-
-		// stop keeping time
-		m_Timer.stop ();
-
-		// Display timing updates
-		m_Console.WriteLine ({ 0, (SHORT)m_Maze.getHeight () + 2 }, "Limit =  " + std::to_string (m_Maze.getTimeLimit_ms ()) + " ms");
-		m_Console.WriteLine ("Elapsed =  " + std::to_string (m_Timer.getElapsed_ms ()) + " ms");
+		UpdateSimulation ();
+		UpdateTimer ();
 
 		// short delay between moves to make them visible
 		Sleep (200);
 
-		// Quit if Escape is pressed.
-		if (_kbhit ())
-		{
-			if (ESC_KEY == _getch ())
-				return;
-		}
+		if (EndSimulation ())
+			return;
 
 	} while (!m_Mouse->FoundCheese ());
+
+	DisplaySimulationResults ();
+}
+
+void SimulationController::UpdateSimulation ()
+{
+	// start keeping time
+	m_Timer.start ();
+
+	// Update mouse information.
+	m_Mouse->CalculateMovement ();
+	m_Mouse->Draw (m_Console);
+
+	// Stop keeping time
+	m_Timer.stop ();
+}
+
+void SimulationController::UpdateTimer ()
+{
+	// Display timing updates
+	m_Console.WriteLine ({ 0, (SHORT)m_Maze.getHeight () + 2 }, "Limit =  " + std::to_string (m_Maze.getTimeLimit_ms ()) + " ms");
+	m_Console.WriteLine ("Elapsed =  " + std::to_string (m_Timer.getElapsed_ms ()) + " ms");
+}
+
+bool SimulationController::EndSimulation ()
+{
+	// Quit if Escape is pressed.
+	if (_kbhit ())
+	{
+		if (ESC_KEY == _getch ())
+			return true;
+	}
+
+	return false;
 }
 
 void SimulationController::DisplaySimulationResults ()
 {
+	// Gran the fully elapsed time of the simulation and display it on screen.
 	double elapsed = m_Timer.getElapsed_ms ();
 	m_Console.EndLine ();
 	m_Console.WriteLine ({ 0, (SHORT)m_Maze.getHeight () + 3 }, "Total Elapsed =  " + std::to_string (elapsed));
@@ -96,6 +118,7 @@ void SimulationController::DisplaySimulationResults ()
 
 SimulationController::~SimulationController ()
 {
+	// Clean up the dynamic memory created.
 	delete m_Mouse;
 	m_Mouse = nullptr;
 }

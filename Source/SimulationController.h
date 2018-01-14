@@ -18,12 +18,19 @@ class SimulationController
 // Methods
 public:
 	SimulationController ();
+	void StartSimulation ();
+	~SimulationController ();
+
+// Methods
+private:
 	bool MazeCreated ();
 	void DisplayIntroMenu ();
 	void LogCreationError ();
 	void LoopSimulation ();
+	void UpdateSimulation ();
+	void UpdateTimer ();
+	bool EndSimulation ();
 	void DisplaySimulationResults ();
-	~SimulationController ();
 
 // Members
 private:
