@@ -87,6 +87,7 @@
     <ClCompile Include="Console.cpp" />
     <ClCompile Include="Mouse.cpp" />
     <ClCompile Include="SimulationController.cpp" />
+    <ClCompile Include="Vector2.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="LibraryDebug141.lib">
@@ -105,6 +106,7 @@
     <ClInclude Include="cVector2.h" />
     <ClInclude Include="Mouse.h" />
     <ClInclude Include="SimulationController.h" />
+    <ClInclude Include="Vector2.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
