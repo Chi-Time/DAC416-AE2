@@ -115,6 +115,7 @@ void SimulationController::DisplaySimulationResults ()
 	double elapsed = m_Timer.getElapsed_ms ();
 	m_Console.EndLine ();
 	m_Console.WriteLine ({ 0, (SHORT)m_Maze.getHeight () + 3 }, "Total Elapsed =  " + std::to_string (elapsed));
+	m_Console.WriteLine ({ 0, (SHORT)m_Maze.getHeight () + 5 }, "Path errors: " + std::to_string (m_Mouse->GetErrorCount ()));
 	m_Console.WaitForInput ("Press a key to exit");
 }
 
@@ -126,6 +127,9 @@ void SimulationController::DrawMousePath ()
 	// Run through the mouses's path and print each position onto the maze.
 	for (int i = 0; i < path.size (); i++)
 		m_Console.WriteLine ({ (SHORT)path[i].x, (SHORT)path[i].y }, "+", FOREGROUND_INTENSITY | 5);
+
+	// Re-draw the end character for clarification of the path.
+	m_Console.WriteLine ({ (SHORT)m_Mouse->GetPos ().x, (SHORT)m_Mouse->GetPos ().y }, "E", FOREGROUND_INTENSITY | 7);
 }
 
 SimulationController::~SimulationController ()

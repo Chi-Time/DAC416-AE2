@@ -29,7 +29,10 @@ void Mouse::CalculateMovement ()
 			return;
 		// If no other movement, check right (our immediate back.)
 		else if (MoveTo (Vector2::Right ()))
+		{
+			m_ErrorCount++;
 			return;
+		}
 	}
 	// If moving down.
 	else if (m_Dir == Vector2::Down ())
@@ -45,7 +48,10 @@ void Mouse::CalculateMovement ()
 			return;
 		// If no other movement, check up (our immediate back.)
 		else if (MoveTo (Vector2::Up ()))
+		{
+			m_ErrorCount++;
 			return;
+		}
 	}
 	// If moving right.
 	else if (m_Dir == Vector2::Right ())
@@ -61,7 +67,10 @@ void Mouse::CalculateMovement ()
 			return;
 		// If no other movement, check left (our immediate back.)
 		else if (MoveTo (Vector2::Left ()))
+		{
+			m_ErrorCount++;
 			return;
+		}
 	}
 	// If moving up.
 	else if (m_Dir == Vector2::Up ())
@@ -77,7 +86,10 @@ void Mouse::CalculateMovement ()
 			return;
 		// If no other movement, check down (our immediate back.)
 		else if (MoveTo (Vector2::Down ()))
+		{
+			m_ErrorCount++;
 			return;
+		}
 	}
 }
 
