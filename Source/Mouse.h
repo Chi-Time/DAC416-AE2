@@ -20,6 +20,7 @@ public:
 	/* Description: Retrieves the current character used to denote the mouse on screen.
 	*/
 	std::string GetMouseChar () { return m_MouseChar; }
+	std::vector<cVector2> GetMousePath () { return m_Path; }
 	/* Description: Retrieves whether or not the mouse has found the cheese in the maze.
 	*/
 	bool FoundCheese () { return m_HasFoundCheese; }
@@ -62,6 +63,7 @@ private:
 	/* Description: The current maze as a multidimensional array.
 	*/
 	std::vector<std::string> m_Maze;
+	std::vector<cVector2> m_Path;
 
 // Methods
 private:

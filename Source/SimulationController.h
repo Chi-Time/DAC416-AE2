@@ -31,6 +31,7 @@ private:
 	void UpdateTimer ();
 	bool EndSimulation ();
 	void DisplaySimulationResults ();
+	void DrawMousePath ();
 
 // Members
 private:
