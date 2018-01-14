@@ -18,16 +18,6 @@ Console::Console ()
 	SetConsoleCursorPosition (m_Handle, m_CursorPosition);
 }
 
-const WORD & Console::GetCurrentAttribute () { return m_Attribute; }
-
-const DWORD & Console::GetNumberOfCharsWritten () { return m_CharsWritten; }
-
-const HANDLE & Console::GetConsoleHandle () { return m_Handle; }
-
-const COORD & Console::GetCursorPosition () { return m_CursorPosition; }
-
-const CONSOLE_SCREEN_BUFFER_INFO & Console::GetConsoleInfo () { return m_Info; }
-
 void Console::SetCursorPosition (COORD position)
 {
 	m_CursorPosition = position;

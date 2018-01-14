@@ -15,19 +15,19 @@ class Console
 public:
 	/* Description: Retrieves the current colour attribute of the console.
 	*/
-	const WORD& GetCurrentAttribute ();
+	const WORD& GetCurrentAttribute () { return m_Attribute; }
 	/* Description: Retrieves the current number of characters written to the console instance.
 	*/
-	const DWORD& GetNumberOfCharsWritten ();
+	const DWORD& GetNumberOfCharsWritten () { return m_CharsWritten; }
 	/* Description: Retrieves the current handle used for all console operations.
 	*/
-	const HANDLE& GetConsoleHandle ();
+	const HANDLE& GetConsoleHandle () { return m_Handle; }
 	/* Description: Retrieves the current position of the console cursor.
 	*/
-	const COORD& GetCursorPosition ();
+	const COORD& GetCursorPosition () { return m_CursorPosition; }
 	/* Description: Retrieves the current buffer info of the console instance.
 	*/
-	const CONSOLE_SCREEN_BUFFER_INFO& GetConsoleInfo ();
+	const CONSOLE_SCREEN_BUFFER_INFO& GetConsoleInfo () { return m_Info; }
 	/* Description: Set's the position of the console cursor to the given screen coordinates.
 	*Position: The position on screen to the set the console cursor to.
 	*/
