@@ -17,7 +17,8 @@ public:
 
 public:
 	// Methods
-	Mouse (cVector2& spawnPosm, std::vector<std::string> maze);
+	Mouse (cVector2& spawnPos, std::vector<std::string> maze);
+	void CalculateMovement ();
 	void Draw (Console& console);
 	bool MoveTo (const cVector2& toPos);
 
