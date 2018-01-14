@@ -63,59 +63,6 @@ void SimulationController::LoopSimulation ()
 		// start keeping time
 		m_Timer.start ();
 
-		// If moving left.
-		if (m_Mouse->GetDir () == cVector2 (-1, 0))
-		{
-			// Check down first (our immediate left from this position.)
-			if (m_Mouse->MoveTo (cVector2{ 0, 1 }))
-				m_Mouse->Draw (m_Console);
-			else if (m_Mouse->MoveTo (cVector2{ -1, 0 }))
-				m_Mouse->Draw (m_Console);
-			else if (m_Mouse->MoveTo (cVector2{ 0, -1 }))
-				m_Mouse->Draw (m_Console);
-			else if (m_Mouse->MoveTo (cVector2{ 1, 0 }))
-				m_Mouse->Draw (m_Console);
-		}
-		// If moving down.
-		else if (m_Mouse->GetDir () == cVector2 (0, 1))
-		{
-			// Check right first (our immediate left from this position.)
-			if (m_Mouse->MoveTo (cVector2{ 1, 0 }))
-				m_Mouse->Draw (m_Console);
-			else if (m_Mouse->MoveTo (cVector2{ 0, 1 }))
-				m_Mouse->Draw (m_Console);
-			else if (m_Mouse->MoveTo (cVector2{ -1, 0 }))
-				m_Mouse->Draw (m_Console);
-			else if (m_Mouse->MoveTo (cVector2{ 0, -1 }))
-				m_Mouse->Draw (m_Console);
-		}
-		// If moving right.
-		else if (m_Mouse->GetDir () == cVector2 (1, 0))
-		{
-			// Check up first, (our immediate left from this position.)
-			if (m_Mouse->MoveTo (cVector2{ 0, -1 }))
-				m_Mouse->Draw (m_Console);
-			else if (m_Mouse->MoveTo (cVector2{ 1, 0 }))
-				m_Mouse->Draw (m_Console);
-			else if (m_Mouse->MoveTo (cVector2{ 0, 1 }))
-				m_Mouse->Draw (m_Console);
-			else if (m_Mouse->MoveTo (cVector2{ -1, 0 }))
-				m_Mouse->Draw (m_Console);
-		}
-		// If moving up.
-		else if (m_Mouse->GetDir () == cVector2 (0, -1))
-		{
-			// Cbeck left first, (our immediate left from this position.)
-			if (m_Mouse->MoveTo (cVector2{ -1, 0 }))
-				m_Mouse->Draw (m_Console);
-			else if (m_Mouse->MoveTo (cVector2{ 0, -1 }))
-				m_Mouse->Draw (m_Console);
-			else if (m_Mouse->MoveTo (cVector2{ 1, 0 }))
-				m_Mouse->Draw (m_Console);
-			else if (m_Mouse->MoveTo (cVector2{ 0, 1 }))
-				m_Mouse->Draw (m_Console);
-		}
-
 		m_Mouse->CalculateMovement ();
 		m_Mouse->Draw (m_Console);
 
