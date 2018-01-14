@@ -19,7 +19,7 @@ SimulationController::SimulationController ()
 	m_Console = Console ();
 
 	// create a maze variable and create a new maze
-	m_Maze = cMaze ();
+	m_Maze;// = cMaze ();
 	m_Maze.createRandomSize ();
 
 	// print the maze
@@ -31,7 +31,7 @@ SimulationController::SimulationController ()
 	m_Console.ClearLine ((SHORT)m_Maze.getHeight () + 4);
 
 	// create a timer to keep track of elapsed time
-	m_Timer = cTimer ();
+	m_Timer;// = cTimer ();
 
 	// ensure the maze was created successfully with a start point
 	cVector2 startPos;
@@ -47,6 +47,8 @@ SimulationController::SimulationController ()
 	m_Console.EndLine ();
 	m_Console.WriteLine ({ 0, (SHORT)m_Maze.getHeight () + 3 }, "Total Elapsed =  " + std::to_string (elapsed));
 	m_Console.WaitForInput ("Press a key to exit");
+
+	LoopSimulation ();
 }
 
 void SimulationController::LoopSimulation ()
