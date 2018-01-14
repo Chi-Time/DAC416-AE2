@@ -16,7 +16,7 @@ Mouse::Mouse (cVector2 & spawnPos, std::vector<std::string> maze)
 void Mouse::CalculateMovement ()
 {
 	// If moving left.
-	if (GetDir () == Vector2::Left ())
+	if (m_Dir == Vector2::Left ())
 	{
 		// Check down first (our immediate left from this position.)
 		if (MoveTo (Vector2::Down ()))
@@ -32,7 +32,7 @@ void Mouse::CalculateMovement ()
 			return;
 	}
 	// If moving down.
-	else if (GetDir () == Vector2::Down ())
+	else if (m_Dir == Vector2::Down ())
 	{
 		// Check right first (our immediate left from this position.)
 		if (MoveTo (Vector2::Right ()))
@@ -48,7 +48,7 @@ void Mouse::CalculateMovement ()
 			return;
 	}
 	// If moving right.
-	else if (GetDir () == Vector2::Right ())
+	else if (m_Dir == Vector2::Right ())
 	{
 		// Check up first, (our immediate left from this position.)
 		if (MoveTo (Vector2::Up ()))
@@ -64,7 +64,7 @@ void Mouse::CalculateMovement ()
 			return;
 	}
 	// If moving up.
-	else if (GetDir () == Vector2::Up ())
+	else if (m_Dir == Vector2::Up ())
 	{
 		// Cbeck left first, (our immediate left from this position.)
 		if (MoveTo (Vector2::Left ()))
@@ -83,27 +83,65 @@ void Mouse::CalculateMovement ()
 
 bool Mouse::MoveTo (const cVector2& toPos)
 {
-	if ('E' == m_Maze[m_Pos.y + toPos.y][m_Pos.x + toPos.x])
-		m_HasFoundCheese = true;
-	else if (' ' != m_Maze[m_Pos.y + toPos.y][m_Pos.x + toPos.x])
+	// Is the following vector a valid movement?
+	if (!ValidMove (m_Pos + toPos))
+		// Return that the movement was unsuccessful.
 		return false;
 
+	// Set the previous position the mouse was in.
 	m_PrevPos = m_Pos;
+	// Set the new position of the mouse.
 	m_Pos += toPos;
+	// Update the mouse's current direction vector.
 	m_Dir = toPos;
 
+	// Return that the movement was successful.
 	return true;
 }
 
 void Mouse::Draw (Console& console)
 {
-	console.WriteLine ({ (SHORT)m_Pos.x, (SHORT)m_Pos.y }, m_Symbol, FOREGROUND_INTENSITY | 6);
+	// Start position char.
+	const char start = 'S';
+	// Clear space char.
+	const std::string clear = " ";
+	// The char of the previous maze space the mouse was in.
+	const char previousScreenChar = m_Maze[m_PrevPos.y][m_PrevPos.x];
+	// The current position of the mouse in screen COORDs.
+	const COORD currentScreenPos = { (SHORT)m_Pos.x, (SHORT)m_Pos.y };
+	// The previous position of the mouse in screen COORDs.
+	const COORD previouScreenPos = { (SHORT)m_PrevPos.x, (SHORT)m_PrevPos.y };
 
-	// If the position the mouse previously was in, is not a start position. Clear the space back to empty again.
-	if (m_Maze[m_PrevPos.y][m_PrevPos.x] != 'S')
-		console.WriteLine ({ (SHORT)m_PrevPos.x, (SHORT)m_PrevPos.y }, " ", FOREGROUND_INTENSITY | 7);
+	// Empty the previous position of the mouse.
+	console.WriteLine (currentScreenPos, m_MouseChar, FOREGROUND_INTENSITY | 6);
+
+	// If the previous position is not the maze start. Then clear the space back to empty again.
+	if (previousScreenChar != start)
+		console.WriteLine (previouScreenPos, clear, FOREGROUND_INTENSITY | 7);
 }
 
 Mouse::~Mouse ()
 {
+}
+
+bool Mouse::ValidMove (const cVector2 nextPos)
+{
+	// Floor char.
+	const char floor = ' ';
+	// Cheese char.
+	const char cheese = 'E';
+	// The current char of the maze space being moved into.
+	const char currentMazeChar = m_Maze[nextPos.y][nextPos.x];
+
+	// If the current space being moved to is the cheese.
+	if (currentMazeChar == cheese)
+	{
+		// Collect the cheese and return that the movement was successful.
+		m_HasFoundCheese = true;
+		return true;
+	}
+	// If the space being moved to is not the floor.
+	else if (currentMazeChar != floor)
+		// Return that the movement was unsuccessful.
+		return false;
 }
