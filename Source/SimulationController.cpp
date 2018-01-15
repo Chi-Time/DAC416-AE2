@@ -43,7 +43,7 @@ void SimulationController::LogCreationError ()
 	// Clear the screen of any content and log the error to the screen, waiting for user input to end.
 	m_Console.ClearScreen ();
 	m_Console.WriteLine ("Error occurred in maze creation. Simulation could not continue!");
-	m_Console.WaitForInput ("Press a key to exit");
+	m_Console.WaitForInput ("Please press any key to exit the simulation.");
 }
 
 void SimulationController::DisplayIntroMenu ()
@@ -53,7 +53,7 @@ void SimulationController::DisplayIntroMenu ()
 
 	// Display timing updates
 	m_Console.WriteLine ({ 0, (SHORT)m_Maze.getHeight () + 2 }, "Limit =  " + std::to_string (m_Maze.getTimeLimit_ms ()) + " ms");
-	m_Console.WaitForInput ("Press a key to start the mouse.");
+	m_Console.WaitForInput ("Please press any key to start the simulation..");
 	m_Console.ClearLine ((SHORT)m_Maze.getHeight () + 4);
 }
 
@@ -90,13 +90,16 @@ void SimulationController::UpdateSimulation ()
 
 void SimulationController::UpdateSimulationUI ()
 {
-	// Display timing updates
+	// Display timing updates.
 	m_Console.WriteLine ({ 0, (SHORT)m_Maze.getHeight () + 2 }, "Limit =  " + std::to_string (m_Maze.getTimeLimit_ms ()) + " ms");
 	m_Console.WriteLine ("Elapsed =  " + std::to_string (m_Timer.getElapsed_ms ()) + " ms");
 
+	// Display speed prompt.
+	m_Console.WriteLine ({ 0, (SHORT)m_Maze.getHeight () + 5 }, "Press the RIGHT ARROW to speed up the simulation or the LEFT ARROW to slow it down.");
+
 	// Display current simulation speed to user.
-	m_Console.ClearLine ((SHORT)m_Maze.getHeight () + 4);
-	m_Console.WriteLine ({ 0, (SHORT)m_Maze.getHeight () + 4 }, "Simulation Speed: " + std::to_string (m_Speed) + "ms");
+	m_Console.ClearLine ((SHORT)m_Maze.getHeight () + 6);
+	m_Console.WriteLine ({ 0, (SHORT)m_Maze.getHeight () + 6 }, "Simulation Speed: " + std::to_string (m_Speed) + "ms");
 }
 
 bool SimulationController::ExitSimulation ()
@@ -132,26 +135,30 @@ bool SimulationController::ExitSimulation ()
 
 void SimulationController::DisplaySimulationResults ()
 {
-	m_Console.ClearScreen ();
-	m_Maze.print ();
 	DrawMousePath ();
 
 	// Gran the fully elapsed time of the simulation and display it on screen.
 	double elapsed = m_Timer.getElapsed_ms ();
 	m_Console.EndLine ();
 	m_Console.WriteLine ({ 0, (SHORT)m_Maze.getHeight () + 3 }, "Total Elapsed =  " + std::to_string (elapsed));
-	m_Console.WriteLine ({ 0, (SHORT)m_Maze.getHeight () + 5 }, "Path errors: " + std::to_string (m_Mouse->GetErrorCount ()));
-	m_Console.WaitForInput ("Press a key to exit");
+	m_Console.WriteLine ({ 0, (SHORT)m_Maze.getHeight () + 4 }, "The mouse's route through the maze is shown in red.");
+	m_Console.WriteLine ({ 0, (SHORT)m_Maze.getHeight () + 5 }, "Mouse Path errors: " + std::to_string (m_Mouse->GetErrorCount ()));
+	m_Console.WaitForInput ("Please press any key to exit the simulation.");
 }
 
 void SimulationController::DrawMousePath ()
 {
+	// Clear the screen of data.
+	m_Console.ClearScreen ();
+	// Re-print the maze to the window.
+	m_Maze.print ();
+
 	// Get the mouse's current route within the maze.
 	const std::vector<cVector2> route = m_Mouse->GetMouseRoute ();
 
 	// Run through the mouses's route and print each position onto the maze.
 	for (int i = 0; i < route.size (); i++)
-		m_Console.WriteLine ({ (SHORT)route[i].x, (SHORT)route[i].y }, "+", FOREGROUND_INTENSITY | 6);
+		m_Console.WriteLine ({ (SHORT)route[i].x, (SHORT)route[i].y }, "+", FOREGROUND_INTENSITY | 4);
 
 	// Re-draw the end character for clarification of the path.
 	m_Console.WriteLine ({ (SHORT)m_Mouse->GetPos ().x, (SHORT)m_Mouse->GetPos ().y }, "E", FOREGROUND_INTENSITY | 7);
