@@ -1,6 +1,7 @@
 #ifndef INCLUDE_H_MOUSE
 #define INCLUDE_H_MOUSE
 
+#include <vector>
 #include "cVector2.h"
 
 class Console;
