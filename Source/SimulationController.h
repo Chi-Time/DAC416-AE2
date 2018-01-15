@@ -28,7 +28,7 @@ private:
 	void LogCreationError ();
 	void LoopSimulation ();
 	void UpdateSimulation ();
-	void UpdateTimer ();
+	void UpdateSimulationUI ();
 	bool EndSimulation ();
 	void DisplaySimulationResults ();
 	void DrawMousePath ();
@@ -38,6 +38,7 @@ private:
 	cMaze m_Maze;
 	cTimer m_Timer;
 	Console m_Console;
+	int m_Speed{ 200 };
 	Mouse* m_Mouse{ nullptr };
 
 };

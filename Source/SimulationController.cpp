@@ -3,6 +3,8 @@
 
 
 const int ESC_KEY = 27;
+const int LEFT_ARROW = 'a';
+const int RIGHT_ARROW = 'd';
 
 SimulationController::SimulationController ()
 {
@@ -62,10 +64,10 @@ void SimulationController::LoopSimulation ()
 	do
 	{
 		UpdateSimulation ();
-		UpdateTimer ();
+		UpdateSimulationUI ();
 
 		// short delay between moves to make them visible
-		Sleep (200);
+		Sleep (m_Speed);
 
 		if (EndSimulation ())
 			return;
@@ -88,20 +90,43 @@ void SimulationController::UpdateSimulation ()
 	m_Timer.stop ();
 }
 
-void SimulationController::UpdateTimer ()
+void SimulationController::UpdateSimulationUI ()
 {
 	// Display timing updates
 	m_Console.WriteLine ({ 0, (SHORT)m_Maze.getHeight () + 2 }, "Limit =  " + std::to_string (m_Maze.getTimeLimit_ms ()) + " ms");
 	m_Console.WriteLine ("Elapsed =  " + std::to_string (m_Timer.getElapsed_ms ()) + " ms");
+
+	// Display current simulation speed to user.
+	m_Console.ClearLine ((SHORT)m_Maze.getHeight () + 4);
+	m_Console.WriteLine ({ 0, (SHORT)m_Maze.getHeight () + 4 }, "Simulation Speed: " + std::to_string (m_Speed) + "ms");
 }
 
 bool SimulationController::EndSimulation ()
 {
-	// Quit if Escape is pressed.
+	// Check for any input from the user.
 	if (_kbhit ())
 	{
-		if (ESC_KEY == _getch ())
+		// Grab the users current input and compare it.
+		char choice = _getch ();
+
+		switch (choice)
+		{
+			// If the right arrow key was pressed, increase the simulation speed.
+		case RIGHT_ARROW:
+			if (m_Speed > 25)
+				m_Speed -= 25;
+			break;
+			// If the left arrow key was pressed, decrease the simulation speed.
+		case LEFT_ARROW:
+			if (m_Speed < 250)
+				m_Speed += 25;
+			break;
+			// If the escape key was pressed, return true and signal that the application should quit.
+		case ESC_KEY:
 			return true;
+		default:
+			break;
+		}
 	}
 
 	return false;
@@ -109,6 +134,8 @@ bool SimulationController::EndSimulation ()
 
 void SimulationController::DisplaySimulationResults ()
 {
+	m_Console.ClearScreen ();
+	m_Maze.print ();
 	DrawMousePath ();
 
 	// Gran the fully elapsed time of the simulation and display it on screen.
