@@ -15,15 +15,20 @@ public:
 	cVector2 GetDir () { return m_Dir; }
 	/* Description: Retrieves the current position of the mouse on the screen.*/
 	cVector2 GetPos () { return m_Pos; }
+	/* Description: Retrieves the number of incorrect paths the mouse has taken.*/
 	int GetErrorCount () { return m_ErrorCount; }
 	/* Description: Retrieves the current character used to denote the mouse on screen.*/
 	std::string GetMouseChar () { return m_MouseChar; }
-	std::vector<cVector2> GetMousePath () { return m_Path; }
+	/* Description: Retrieves the current route of positions the mouse has taken.*/
+	std::vector<cVector2> GetMouseRoute () { return m_Route; }
 	/* Description: Retrieves whether or not the mouse has found the cheese in the maze.*/
 	bool FoundCheese () { return m_HasFoundCheese; }
 
 // Methods
 public:
+	/* Description: Class constructor.
+	*spawnPos: The spawn position of the mouse on the screen.
+	*maze: The current maze instance.*/
 	Mouse (cVector2& spawnPos, std::vector<std::string> maze);
 	/* Description: Calculates the mouse's next movement within the maze.*/
 	void CalculateMovement ();
@@ -52,7 +57,7 @@ private:
 	/* Description: Whether the mouse has found the cheese in the maze or not.*/
 	bool m_HasFoundCheese{ false };
 	/* Description: An array of positions of the mouse has taken in the maze, in order from last to start.*/
-	std::vector<cVector2> m_Path;
+	std::vector<cVector2> m_Route;
 	/* Description: The current maze as a multidimensional array.*/
 	std::vector<std::string> m_Maze;
 

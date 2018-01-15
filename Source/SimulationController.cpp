@@ -146,12 +146,12 @@ void SimulationController::DisplaySimulationResults ()
 
 void SimulationController::DrawMousePath ()
 {
-	// Get the mouse's current path within the maze.
-	const std::vector<cVector2> path = m_Mouse->GetMousePath ();
+	// Get the mouse's current route within the maze.
+	const std::vector<cVector2> route = m_Mouse->GetMouseRoute ();
 
-	// Run through the mouses's path and print each position onto the maze.
-	for (int i = 0; i < path.size (); i++)
-		m_Console.WriteLine ({ (SHORT)path[i].x, (SHORT)path[i].y }, "+", FOREGROUND_INTENSITY | 5);
+	// Run through the mouses's route and print each position onto the maze.
+	for (int i = 0; i < route.size (); i++)
+		m_Console.WriteLine ({ (SHORT)route[i].x, (SHORT)route[i].y }, "+", FOREGROUND_INTENSITY | 6);
 
 	// Re-draw the end character for clarification of the path.
 	m_Console.WriteLine ({ (SHORT)m_Mouse->GetPos ().x, (SHORT)m_Mouse->GetPos ().y }, "E", FOREGROUND_INTENSITY | 7);

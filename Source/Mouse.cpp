@@ -100,7 +100,8 @@ bool Mouse::MoveTo (const cVector2& toPos)
 		// Return that the movement was unsuccessful.
 		return false;
 
-	m_Path.push_back (m_Pos + toPos);
+	// Push a new position onto the mouse's route.
+	m_Route.push_back (m_Pos + toPos);
 	// Set the previous position the mouse was in.
 	m_PrevPos = m_Pos;
 	// Set the new position of the mouse.

@@ -85,6 +85,7 @@
   <ItemGroup>
     <ClCompile Include="AE2_Project.cpp" />
     <ClCompile Include="Console.cpp" />
+    <ClCompile Include="MazeCell.cpp" />
     <ClCompile Include="Mouse.cpp" />
     <ClCompile Include="SimulationController.cpp" />
     <ClCompile Include="Vector2.cpp" />
@@ -104,6 +105,7 @@
     <ClInclude Include="Console.h" />
     <ClInclude Include="cTimer.h" />
     <ClInclude Include="cVector2.h" />
+    <ClInclude Include="MazeCell.h" />
     <ClInclude Include="Mouse.h" />
     <ClInclude Include="SimulationController.h" />
     <ClInclude Include="Vector2.h" />
