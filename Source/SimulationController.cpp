@@ -1,10 +1,8 @@
+#include <conio.h>
+#include "Mouse.h"
 #include "SimulationController.h"
 
 
-
-const int ESC_KEY = 27;
-const int LEFT_ARROW = 'a';
-const int RIGHT_ARROW = 'd';
 
 SimulationController::SimulationController ()
 {
@@ -28,9 +26,6 @@ bool SimulationController::MazeCreated ()
 	// Initialise a maze of a random size.
 	m_Maze.createRandomSize ();
 
-	// print the maze to the console.
-	m_Maze.print ();
-
 	// ensure the maze was created successfully with a start point
 	cVector2 startPos;
 
@@ -43,20 +38,23 @@ bool SimulationController::MazeCreated ()
 	return true;
 }
 
-void SimulationController::DisplayIntroMenu ()
-{
-	// Display timing updates
-	m_Console.WriteLine ({ 0, (SHORT)m_Maze.getHeight () + 2 }, "Limit =  " + std::to_string (m_Maze.getTimeLimit_ms ()) + " ms");
-	m_Console.WaitForInput ("Press a key to start the mouse.");
-	m_Console.ClearLine ((SHORT)m_Maze.getHeight () + 4);
-}
-
 void SimulationController::LogCreationError ()
 {
 	// Clear the screen of any content and log the error to the screen, waiting for user input to end.
 	m_Console.ClearScreen ();
 	m_Console.WriteLine ("Error occurred in maze creation. Simulation could not continue!");
 	m_Console.WaitForInput ("Press a key to exit");
+}
+
+void SimulationController::DisplayIntroMenu ()
+{
+	// print the maze to the console.
+	m_Maze.print ();
+
+	// Display timing updates
+	m_Console.WriteLine ({ 0, (SHORT)m_Maze.getHeight () + 2 }, "Limit =  " + std::to_string (m_Maze.getTimeLimit_ms ()) + " ms");
+	m_Console.WaitForInput ("Press a key to start the mouse.");
+	m_Console.ClearLine ((SHORT)m_Maze.getHeight () + 4);
 }
 
 void SimulationController::LoopSimulation ()
@@ -69,7 +67,7 @@ void SimulationController::LoopSimulation ()
 		// short delay between moves to make them visible
 		Sleep (m_Speed);
 
-		if (EndSimulation ())
+		if (ExitSimulation ())
 			return;
 
 	} while (!m_Mouse->FoundCheese ());
@@ -101,7 +99,7 @@ void SimulationController::UpdateSimulationUI ()
 	m_Console.WriteLine ({ 0, (SHORT)m_Maze.getHeight () + 4 }, "Simulation Speed: " + std::to_string (m_Speed) + "ms");
 }
 
-bool SimulationController::EndSimulation ()
+bool SimulationController::ExitSimulation ()
 {
 	// Check for any input from the user.
 	if (_kbhit ())
@@ -112,17 +110,17 @@ bool SimulationController::EndSimulation ()
 		switch (choice)
 		{
 			// If the right arrow key was pressed, increase the simulation speed.
-		case RIGHT_ARROW:
+		case KEYS::RIGHT_ARROW:
 			if (m_Speed > 25)
 				m_Speed -= 25;
 			break;
 			// If the left arrow key was pressed, decrease the simulation speed.
-		case LEFT_ARROW:
+		case KEYS::LEFT_ARROW:
 			if (m_Speed < 250)
 				m_Speed += 25;
 			break;
 			// If the escape key was pressed, return true and signal that the application should quit.
-		case ESC_KEY:
+		case KEYS::ESC:
 			return true;
 		default:
 			break;
